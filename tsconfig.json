@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node", // or "nodenext"
+    "jsx": "react-jsx",
+    "allowJs": false, // Disable importing .js files
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"]
+    }
+  },
+  "include": ["src"]
+}
