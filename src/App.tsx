@@ -1,13 +1,15 @@
-import { useState } from 'react'
-import './App.css'
+import Home from './pages/Home'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import './styles/App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div>
-      <p className='font-bold text-black'>XXX</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Home />} />
+      </Routes>
+    </Router>
   )
 }
 

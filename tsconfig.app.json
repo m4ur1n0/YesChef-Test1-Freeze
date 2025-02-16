@@ -8,8 +8,8 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "node16", // Use "node16" or "nodenext"
-    "allowImportingTsExtensions": true, // Only valid with "node16" or "nodenext"
+    "moduleResolution": "node", // Use "node16" or "nodenext"
+    // "allowImportingTsExtensions": true, // Only valid with "node16" or "nodenext"
     "isolatedModules": true,
     "moduleDetection": "force",
     // "noEmit": true, // Remove this if it conflicts with the root tsconfig.json

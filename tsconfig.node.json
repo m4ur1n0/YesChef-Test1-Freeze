@@ -7,7 +7,7 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "nodenext", // Use "node16" or "nodenext"
+    "moduleResolution": "node", // Use "node16" or "nodenext"
     "allowImportingTsExtensions": true, // Only valid with "node16" or "nodenext"
     "isolatedModules": true,
     "moduleDetection": "force",
