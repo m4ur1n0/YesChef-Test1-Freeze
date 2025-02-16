@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { queryHuggingFace } from "../lib/hugging_face/huggingFace";
+import { queryGemini_2_0 } from "../lib/gemini/Gemini";
 
 
 type Props = {}
@@ -16,22 +16,22 @@ function Home({}: Props) { // component for the main page
     console.log(input);
     setInput('');
 
-    const resp = await queryHuggingFace(input, "gpt2");
+    const resp = await queryGemini_2_0(input);
 
     console.log(JSON.stringify(resp));
-    setResponse(resp[0].generated_text);
+    setResponse(resp[0]);
   }
 
   return (
     <div>
         <p>Home!</p>
         <form className='mb-10' onSubmit={handleSubmit}>
-          <input type="text" className="w-[60vw]" onChange={(e) => {setInput(e.target.value)}} value={input} />
-          <button type="submit" className="bg-gray-500">Submit</button>
+          <input type="text" className="w-[60vw] mt-4" onChange={(e) => {setInput(e.target.value)}} value={input} />
+          <button type="submit" className="bg-gray-500 mx-4">Submit</button>
 
         </form>
 
-        <p>
+        <p className="mt-3">
           {response}
         </p>
     </div>
