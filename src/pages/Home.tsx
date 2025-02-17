@@ -1,5 +1,7 @@
+import { ChatWindow } from "../components/HomeChatPage/ChatWindow";
 import React, { useState } from "react"
 import { queryGemini_2_0 } from "../lib/gemini/Gemini";
+import { CircleSlashIcon } from "lucide-react";
 
 
 type Props = {}
@@ -22,18 +24,13 @@ function Home({}: Props) { // component for the main page
     setResponse(resp[0]);
   }
 
+  // home page arranged generally as side-by-side components, the chat and the recipe.
   return (
-    <div>
-        <p>Home!</p>
-        <form className='mb-10' onSubmit={handleSubmit}>
-          <input type="text" className="w-[60vw] mt-4" onChange={(e) => {setInput(e.target.value)}} value={input} />
-          <button type="submit" className="bg-gray-500 mx-4">Submit</button>
-
-        </form>
-
-        <p className="mt-3">
-          {response}
-        </p>
+    <div className='home-page flex justify-between items-center p-8 relative '>
+      <div className="chat-window-container w-[40vw] h-[80vh]">
+        <ChatWindow />
+      </div>
+        
     </div>
   )
 }

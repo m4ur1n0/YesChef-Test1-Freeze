@@ -16,6 +16,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --yes-chef-teal : #90d3d6;
+  --yes-chef-teal-light : rgba(175, 234, 237, 0.432);
+  --yes-chef-teal-dark : #74acaf;
+
 }
 
 a {
