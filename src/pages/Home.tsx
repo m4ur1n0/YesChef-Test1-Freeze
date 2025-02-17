@@ -1,34 +1,23 @@
+import { MarkdownRender } from "@/components/MarkdownRender";
 import { ChatWindow } from "../components/HomeChatPage/ChatWindow";
-import React, { useState } from "react"
-import { queryGemini_2_0 } from "../lib/gemini/Gemini";
-import { CircleSlashIcon } from "lucide-react";
 
 
 type Props = {}
 
 function Home({}: Props) { // component for the main page
 
-  const [input, setInput] = useState("");
-  const [response, setResponse] = useState("");
-
-
-  const handleSubmit = async (e : React.FormEvent) => {
-    e.preventDefault();
-
-    console.log(input);
-    setInput('');
-
-    const resp = await queryGemini_2_0(input);
-
-    console.log(JSON.stringify(resp));
-    setResponse(resp[0]);
-  }
 
   // home page arranged generally as side-by-side components, the chat and the recipe.
   return (
-    <div className='home-page flex justify-between items-center p-8 relative '>
-      <div className="chat-window-container w-[40vw] h-[80vh]">
+    <div className='home-page w-screen h-screen flex justify-between items-center absolute top-0 left-0 p-8 '>
+      {/* ACTUAL CHAT SECTION */}
+      <div className="chat-window-container w-[30vw] h-[85vh] ">
         <ChatWindow />
+      </div>
+
+      {/* RENDERED RECIPE SECTION  */}
+      <div className="recipe-section w-[60vw] h-screen overflow-y-scroll border border-black">
+        <MarkdownRender />
       </div>
         
     </div>

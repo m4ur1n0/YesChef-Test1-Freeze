@@ -1,17 +1,17 @@
+import { useRecipe } from "@/context/RecipeContext"
 import { queryGemini_2_0 } from "@/lib/gemini/Gemini"
 import { ChatMessage } from "@/types/chat-entry"
-import { GoogleGenerativeAIRequestInputError } from "@google/generative-ai"
-import { ChartBarIcon } from "lucide-react"
-import React, { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "../ui/button"
-import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import { ChatBubble } from "./ChatBubble"
 
 
-type Props = {}
+type Props = {
+  startingMessageHistory? : ChatMessage[]
+}
 
-export const ChatWindow = () => {
+export const ChatWindow = ({startingMessageHistory=[]} : Props) => {
   // considered using card here but may make more sense to just design our own.
   // this chat window expects to take up the full dimensions offered to it, so it should
   // be placed in a div which decides its dimensions when called.
@@ -21,7 +21,8 @@ export const ChatWindow = () => {
   const [inputContent, setInputContent] = useState("");
   const [generationState, setGenerationState] = useState(false); // not currently generating a response
   const textAreaMaxHeightPx = 275;
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>(startingMessageHistory);
+  const {setRawRecipe} = useRecipe();
 
   const adjustTextAreaHeight = () => {
     if (inputRef.current) {
@@ -65,6 +66,8 @@ export const ChatWindow = () => {
       const ch = [...prev, {message : botResponse, role : "BOT"} as ChatMessage];
       return ch;
     });
+
+    setRawRecipe(botResponse as string);
   }
 
   useEffect(() => {
@@ -82,7 +85,7 @@ export const ChatWindow = () => {
 
   return (
     <div 
-      className="chat-window-border w-full h-full bg-inherit rounded-lg p-3 relative overflow-y-scroll"
+      className="chat-window-border w-full h-full bg-inherit rounded-lg py-3 px-2 relative overflow-y-scroll"
       style={{
         boxShadow : `inset 0 0 30px 10px rgba(0, 0, 0, 0.03)`,
 
@@ -90,7 +93,7 @@ export const ChatWindow = () => {
     >
 
       {/* LOGIC FOR RENDERING DIFFERENT CHATS */}
-      <div className="chat-history p-2 flex flex-col gap-2 max-h-[84%] w-full overflow-y-scroll">
+      <div className="chat-history  flex flex-col gap-2 max-h-[84%] w-[80%] ml-[10%] overflow-y-scroll">
 
         {
           chatHistory.length > 0

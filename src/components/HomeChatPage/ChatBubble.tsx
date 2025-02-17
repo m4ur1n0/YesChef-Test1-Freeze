@@ -9,7 +9,7 @@ export const ChatBubble = ({message, key}: Props) => {
     // knows if it is user or bot -- align itself properly?
   return (
     <div 
-        className={`flex rounded-xl w-fit max-w-[60%] h-auto p-2 border border-gray-100 ${message.role === "USER" ? "ml-auto" : "ml-0"}`}
+        className={`flex rounded-xl w-fit max-w-[75%] h-auto p-2 border border-gray-100 ${message.role === "USER" ? "ml-auto" : "ml-0"}`}
         style={{
             backgroundColor : (message.role === "USER" ? "var(--yes-chef-teal-light)" : "rgb(17 24 39)")
         }}
