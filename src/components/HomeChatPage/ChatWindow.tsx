@@ -90,7 +90,7 @@ export const ChatWindow = () => {
     >
 
       {/* LOGIC FOR RENDERING DIFFERENT CHATS */}
-      <div className="chat-history p-2 flex flex-col gap-2 max-h-[83%] w-full overflow-y-scroll">
+      <div className="chat-history p-2 flex flex-col gap-2 max-h-[84%] w-full overflow-y-scroll">
 
         {
           chatHistory.length > 0
@@ -105,7 +105,7 @@ export const ChatWindow = () => {
         <div className="scrollTo-ref" ref={endOfMessagesRef} />
       </div>
 
-      <div className="user-input-field absolute bottom-2 w-full -ml-3 p-2 flex justify-center items-end gap-3 z-30 bg-gray-100">
+      <div className="user-input-field absolute bottom-2 w-full -ml-3 p-2 flex justify-center items-end gap-3 z-30">
         <Textarea 
           className="w-[80%] overflow-y-scroll resize-none " 
           placeholder="Ask Chef..." 
