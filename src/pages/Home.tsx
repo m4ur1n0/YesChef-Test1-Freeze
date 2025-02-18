@@ -1,4 +1,5 @@
-import { MarkdownRender } from "@/components/MarkdownRender";
+
+import TSXFromStringRender from "@/components/TSXFromStringRender";
 import { ChatWindow } from "../components/HomeChatPage/ChatWindow";
 
 
@@ -16,8 +17,8 @@ function Home({}: Props) { // component for the main page
       </div>
 
       {/* RENDERED RECIPE SECTION  */}
-      <div className="recipe-section w-[60vw] h-screen overflow-y-scroll border border-black">
-        <MarkdownRender />
+      <div className="recipe-section w-[60vw] h-screen overflow-y-scroll py-10">
+        <TSXFromStringRender renderedContent="" cn="rendered-recipe-content" />
       </div>
         
     </div>
