@@ -56,3 +56,7 @@ body {
 .rendered-recipe-content p {
   @apply text-base text-gray-800 my-3;
 }
+
+.recently-edited-recipe-html {
+  font-weight: bold;
+}
