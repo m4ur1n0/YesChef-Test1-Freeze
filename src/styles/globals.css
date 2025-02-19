@@ -2,87 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  /* background-color: #242424; */
-  background-color: #f1f1f1;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  --yes-chef-teal : #90d3d6;
-  --yes-chef-teal-light : rgba(175, 234, 237, 0.432);
-  --yes-chef-teal-dark : #74acaf;
-
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+html,
 body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-/* Base Typography Styles */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: bold;
-  margin: 1.5rem 0 1rem;
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: 2.5rem; /* 40px */
-  color: #1a202c; /* Gray-900 */
-}
-
-h2 {
-  font-size: 2rem; /* 32px */
-  color: #2d3748; /* Gray-800 */
-}
-
-h3 {
-  font-size: 1.75rem; /* 28px */
-  color: #4a5568; /* Gray-700 */
-}
-
-h4 {
-  font-size: 1.5rem; /* 24px */
-  color: #4a5568; /* Gray-700 */
-}
-
-h5 {
-  font-size: 1.25rem; /* 20px */
-  color: #4a5568; /* Gray-700 */
-}
-
-h6 {
-  font-size: 1rem; /* 16px */
-  color: #4a5568; /* Gray-700 */
-}
-
-p {
-  font-size: 1rem; /* 16px */
-  color: #4a5568; /* Gray-700 */
-  line-height: 1.6;
-  margin: 1rem 0;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 /* RECIPE CONTENT STYLINGS GENERAL */
@@ -96,11 +27,11 @@ p {
 }
 
 .rendered-recipe-content h2 {
-  @apply font-bold text-3xl my-2 ;
+  @apply font-bold text-3xl my-2;
 }
 
 .rendered-recipe-content h3 {
-  @apply font-bold text-2xl my-2 ;
+  @apply font-bold text-2xl my-2;
 }
 
 .rendered-recipe-content ul {
@@ -108,11 +39,11 @@ p {
 }
 
 .rendered-recipe-content ol {
-  @apply list-decimal list-inside ;
+  @apply list-decimal list-inside;
 }
 
 .rendered-recipe-content li {
-  @apply list-item mx-4 my-1
+  @apply list-item mx-4 my-1;
 }
 
 .rendered-recipe-content p {

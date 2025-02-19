@@ -1,5 +1,5 @@
-import { ChatMessage } from "@/types/chat-entry";
-import { createContext, useContext, useState } from "react";
+import { ChatMessage } from "@/types/chat-entry"
+import { createContext, useContext, useState } from "react"
 
 const exampleText = `
 <div>
@@ -38,61 +38,52 @@ const exampleText = `
 </ol>
 
 <p>Enjoy your homemade Saag Paneer!</p>
-</div>`;
+</div>`
 
 interface recipeContextType {
-    rawRecipe : string;
-    prevRecipe : string;
-    updateRecipe : Function,
-    chatHistory : ChatMessage[],
-    setChatHistory : Function
-
+  rawRecipe: string
+  prevRecipe: string
+  updateRecipe: Function
+  chatHistory: ChatMessage[]
+  setChatHistory: Function
 }
 
 const RecipeContext = createContext<recipeContextType>({
-    rawRecipe : "",
-    prevRecipe : "",
-    updateRecipe : ()=>null,
-    chatHistory : [],
-    setChatHistory : ()=>null,
-});
+  rawRecipe: "",
+  prevRecipe: "",
+  updateRecipe: () => null,
+  chatHistory: [],
+  setChatHistory: () => null,
+})
 
 type Props = {
-    children : any;
+  children: any
 }
 
-export const RecipeProvider = ({children} : Props) => {
+export const RecipeProvider = ({ children }: Props) => {
+  const [rawRecipe, setRawRecipe] = useState(exampleText)
+  const [prevRecipe, setPrevRecipe] = useState("")
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
 
-    const [rawRecipe, setRawRecipe] = useState(exampleText);
-    const [prevRecipe, setPrevRecipe] = useState("");
-    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  function updateRecipe(newRecipe: string) {
+    // function to update recipe to preserve a backup if AI gives us garbage
+    setPrevRecipe(rawRecipe)
+    setRawRecipe(newRecipe)
+  }
 
-    function updateRecipe(newRecipe : string) { // function to update recipe to preserve a backup if AI gives us garbage
-        setPrevRecipe(rawRecipe);
-        setRawRecipe(newRecipe);
-    }
+  const value = {
+    rawRecipe,
+    prevRecipe,
+    updateRecipe,
+    chatHistory,
+    setChatHistory,
+  }
 
-
-    const value = {
-        rawRecipe,
-        prevRecipe,
-        updateRecipe,
-        chatHistory,
-        setChatHistory
-        
-    }
-
-    return (
-        <RecipeContext.Provider
-            value={
-                value
-            }
-        >
-            {children}
-        </RecipeContext.Provider>
-    )
+  return (
+    <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
+  )
 }
 
 export const useRecipe = () => {
-    return useContext(RecipeContext);
+  return useContext(RecipeContext)
 }
