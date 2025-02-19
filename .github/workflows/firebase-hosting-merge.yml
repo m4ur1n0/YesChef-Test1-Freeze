@@ -6,10 +6,22 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "src/**"
+      - "public/**"
+      - "firebase.json"
+      - "package.json"
+      - "index.html"
+      - "vitest.config.js"
+      - ".firebaserc"
+      - ".github/workflows/*"
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo "VITE_GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
