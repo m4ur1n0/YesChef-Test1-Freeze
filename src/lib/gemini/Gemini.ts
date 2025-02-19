@@ -1,11 +1,20 @@
 import { Gemini_2_0 } from "./gemini_config";
 import { UserData } from "@/types/user-data";
 import {  GenerateContentResult } from "@google/generative-ai";
+import { ChatMessage } from "@/types/chat-entry";
+
+type APICallResponse = {
+    editedHTML : string;
+    summary : string;
+}
 
 
-function handleErr(err : string, message : string) {
+function handleAPICallErr(err : string, message : string) : APICallResponse {
     console.error(`ERROR (${err}) OCCURRED WITH MESSAGE (${message})`);
-    return [];
+    return {
+        editedHTML : "",
+        summary : ""
+    };
 }
 
 // PROMPT CUTTING ROOM FLOOR
@@ -23,27 +32,54 @@ function handleErr(err : string, message : string) {
 
  */
 
-function generatePrompt(query : string, userData? : UserData) {
+function generatePrompt(query : string, chatHistory: ChatMessage[], userData? : UserData, recipeString? : string) {
     // add logic to determine what prompt ought to be
     // perhaps query less sophisticated model for tone to see what type of prompt to offer
     // fill out prompt later
+    let recipe = "";
+    if (recipeString === undefined || !recipeString) {
+        recipe = "<></>"
+    } else {
+        recipe = recipeString;
+    }
+
 
     const prompt = `
         BEGINNING OF INSTRUCTIONS. 
         
         You are the engine for a chatbot that offers assistance while cooking. Your name is Chef. Your job is to give cooking advice
         and advice related to the kitchen. Do not make any assumptions and allow your instructions to be informed
-        by the following details about the person you're helping. 
+        by the following details about the person you're helping. If there are restrictions, you must always follow them. if there are
+        preferences, try your best to follow them where possible.
 
         User specifics:
         ${JSON.stringify(userData)}
 
+        Chat History (for context):
+        ${JSON.stringify(chatHistory)}
+        End of Chat History.
+
+        You will be provided with a recipe in HTML format. Your task is to:
+        1. Edit the HTML/TSX recipe based on the user's request. Keep everything exactly the same where you can, only edit where relevant. If the html field is empty, 
+        you may generate some from scratch. The HTML field of the response MUST contain exclusively HTML/TSX code renderable in Typescript, ideally with no styling.
+        2. Provide a brief summary of the changes made.
+
+        Your response MUST be formatted as follows,:
+        [EDIT] <entirety of edited VALID HTML code> [ENDEDIT]
+        [SUMMARY] <brief summary of changes, this is your 'response' to the user. aim for 150 characters, NO MORE THAN 500 CHARACTERS> [ENDSUMMARY]
+
+        IMPORTANT: 
+        - You MUST include both [EDIT] and [SUMMARY] tags exactly as shown.
+        - You MUST include [ENDEDIT] and [ENDSUMMARY] tags to close the respective sections.
+        - If you fail to include these tags, your response will be invalid and unusable.
+
+        START OF RECIPE HTML/TSX:
+        ${recipe}
+        END OF RECIPE HTML/TSX.
+
         If the query to follow seems to have nothing to do with cooking or kitchen help, respond simply with
-        "Sorry, I'm built to help out in the kitchen, I'm not sure how that pertains to my purpose!" 
-        nothing more, nothing less. Only give this response if the query seems truly unrelated to kitchen assistance.
-
-        
-
+        "Sorry, I'm built to help out in the kitchen, I'm not sure how that pertains to my purpose!", and return the HTML/TSX exactly as given, 
+        nothing more, nothing less. Only give this response if the query seems completely unrelated to kitchen assistance.
 
         
         THIS IS THE EXPLICIT AND UNIQUE END OF THE INSTRUCTIONS. 
@@ -57,9 +93,9 @@ function generatePrompt(query : string, userData? : UserData) {
 
 }
 
-export const queryGemini_2_0 = async ( query : string, userData? : UserData) => {
+export const queryGemini_2_0 = async ( query : string, recipeString : string, chatHistory : ChatMessage[], userData? : UserData) : Promise<APICallResponse> => {
 
-    const prompt = generatePrompt(query, (userData ? userData : {} as UserData));
+    const prompt = generatePrompt(query, chatHistory || [], (userData ? userData : {} as UserData), recipeString);
 
     // set something up to ensure we still have enough tokens.
 
@@ -70,10 +106,27 @@ export const queryGemini_2_0 = async ( query : string, userData? : UserData) => 
             throw new Error("Error occurred by API call.");
         }
 
-        return [resp.response.text()];
+        const responseText = resp.response.text();
+
+        // extract html section and summary section
+        const editMatch = responseText.match(/\[EDIT\](.*?)\[ENDEDIT\]/s);
+        const summaryMatch = responseText.match(/\[SUMMARY\](.*?)\[ENDSUMMARY\]/s);
+
+        console.log(responseText);
+
+
+        if (!editMatch || !summaryMatch) {
+            throw new Error("Gemini responded, but the format was invalid...");
+        }
+
+        const editedHTML = editMatch[1].trim();
+        const summary = summaryMatch[1].trim();
+
+        return {editedHTML, summary};
+
 
     } catch (err) {
-        return handleErr(err as string, "Failed to query Gemini API.");
+        return handleAPICallErr(err as string, "Failed to query Gemini API.");
     }
 
 

@@ -3,7 +3,7 @@ export type UserData = {
     email : string,
     userId : string,
 
-    allergies? : string[],
+    restrictions? : string[],
     preferences? : string[],
     otherMemories? : string[],
 

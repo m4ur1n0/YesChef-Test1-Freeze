@@ -2,10 +2,10 @@ import { ChatMessage } from "@/types/chat-entry"
 
 type Props = {
     message : ChatMessage;
-    key : number;
+
 }
 
-export const ChatBubble = ({message, key}: Props) => {
+export const ChatBubble = ({message}: Props) => {
     // knows if it is user or bot -- align itself properly?
   return (
     <div 
@@ -13,7 +13,7 @@ export const ChatBubble = ({message, key}: Props) => {
         style={{
             backgroundColor : (message.role === "USER" ? "var(--yes-chef-teal-light)" : "rgb(17 24 39)")
         }}
-        key={key}
+
     >
 
         <p 

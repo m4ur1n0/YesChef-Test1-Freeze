@@ -21,8 +21,7 @@ export const ChatWindow = ({startingMessageHistory=[]} : Props) => {
   const [inputContent, setInputContent] = useState("");
   const [generationState, setGenerationState] = useState(false); // not currently generating a response
   const textAreaMaxHeightPx = 275;
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>(startingMessageHistory);
-  const {setRawRecipe} = useRecipe();
+  const {updateRecipe, rawRecipe, chatHistory, setChatHistory} = useRecipe();
 
   const adjustTextAreaHeight = () => {
     if (inputRef.current) {
@@ -42,32 +41,36 @@ export const ChatWindow = ({startingMessageHistory=[]} : Props) => {
     if (!inputContent) {
       return;
     }
-    setChatHistory(prev => {
+    setChatHistory((prev: ChatMessage[]) => {
       const ch = [...prev, {message : inputContent, role : "USER"} as ChatMessage];
       return ch;
     });
 
     const query = inputContent;
     setInputContent("");
-    let botResponse = "I'm sorry, there was a failure on the server end. Try again in a minute.";
+
 
     // here is where we will actually send the user input to the ai.
     // for now we pretend it immediately sends back a reponse.
 
     setGenerationState(true);
-    const response = await queryGemini_2_0(query);
-    if (response) {
-      // if response === [] : i.e. failure:
-      botResponse = response[0];
+    const response = await queryGemini_2_0(query, rawRecipe, chatHistory);
+
+    let updatedRecipe = rawRecipe;
+    let newBotResponse = "Sorry, something went wrong on my end, try asking again in a second?";
+
+    if (response?.editedHTML && response?.summary) {
+      updatedRecipe = response.editedHTML;
+      newBotResponse = response.summary;
     }
     setGenerationState(false);
 
-    setChatHistory(prev => {
-      const ch = [...prev, {message : botResponse, role : "BOT"} as ChatMessage];
+    setChatHistory((prev: ChatMessage[]) => {
+      const ch = [...prev, {message : newBotResponse, role : "BOT"} as ChatMessage];
       return ch;
     });
 
-    setRawRecipe(botResponse as string);
+    updateRecipe(updatedRecipe);
   }
 
   useEffect(() => {

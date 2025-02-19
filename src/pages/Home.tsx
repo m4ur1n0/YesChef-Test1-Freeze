@@ -17,7 +17,7 @@ function Home({}: Props) { // component for the main page
       </div>
 
       {/* RENDERED RECIPE SECTION  */}
-      <div className="recipe-section w-[60vw] h-screen overflow-y-scroll py-10">
+      <div className="recipe-section w-[55vw] h-screen overflow-y-scroll p-10">
         <TSXFromStringRender renderedContent="" cn="rendered-recipe-content" />
       </div>
         
