@@ -1,5 +1,5 @@
 import { ChatMessage } from "@/types/chat-entry"
-import { createContext, useContext, useState } from "react"
+import { createContext, ReactNode, useContext, useState } from "react"
 
 const exampleText = `
 <div>
@@ -40,27 +40,26 @@ const exampleText = `
 <p>Enjoy your homemade Saag Paneer!</p>
 </div>`
 
-interface recipeContextType {
+interface RecipeContextType {
   rawRecipe: string
   prevRecipe: string
-  updateRecipe: Function
+  updateRecipe: (newRecipe: string) => void
   chatHistory: ChatMessage[]
-  setChatHistory: Function
+  setChatHistory: React.Dispatch<React.SetStateAction<ChatMessage[]>>
 }
 
-const RecipeContext = createContext<recipeContextType>({
+const RecipeContext = createContext<RecipeContextType>({
   rawRecipe: "",
   prevRecipe: "",
-  updateRecipe: () => null,
+  updateRecipe: () => {},
   chatHistory: [],
-  setChatHistory: () => null,
+  setChatHistory: () => {},
 })
 
-type Props = {
-  children: any
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export const useRecipe = () => useContext(RecipeContext)
 
-export const RecipeProvider = ({ children }: Props) => {
+export const RecipeProvider = ({ children }: { children: ReactNode }) => {
   const [rawRecipe, setRawRecipe] = useState(exampleText)
   const [prevRecipe, setPrevRecipe] = useState("")
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
@@ -82,8 +81,4 @@ export const RecipeProvider = ({ children }: Props) => {
   return (
     <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
   )
-}
-
-export const useRecipe = () => {
-  return useContext(RecipeContext)
 }

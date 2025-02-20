@@ -7,20 +7,18 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "node", // Use "node16" or "nodenext"
-    "allowImportingTsExtensions": true, // Only valid with "node16" or "nodenext"
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    // "noEmit": true, // Remove this if it conflicts with the root tsconfig.json
+    "noEmit": true,
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-
-    "composite": true
+    "noUncheckedSideEffectImports": true
   },
   "include": ["vite.config.ts"]
 }

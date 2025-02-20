@@ -1,5 +1,5 @@
 import TSXFromStringRender from "@/components/TSXFromStringRender"
-import { ChatWindow } from "../components/HomeChatPage/ChatWindow"
+import { ChatWindow } from "../components/Home/ChatWindow"
 
 function Home() {
   // component for the main page

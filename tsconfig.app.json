@@ -8,11 +8,11 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "node", // Use "node16" or "nodenext"
-    // "allowImportingTsExtensions": true, // Only valid with "node16" or "nodenext"
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    // "noEmit": true, // Remove this if it conflicts with the root tsconfig.json
+    "noEmit": true,
     "jsx": "react-jsx",
 
     /* Linting */
@@ -22,7 +22,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "composite": true
+    /* Shadcn Requirements */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"]
 }
