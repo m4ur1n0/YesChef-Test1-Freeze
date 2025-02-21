@@ -140,7 +140,7 @@ export const ChatWindow = () => {
 
       <div className="user-input-field absolute bottom-2 w-full -ml-3 p-2 flex justify-center items-end gap-3 z-30">
         <Textarea
-          className="w-[80%] overflow-y-auto resize-none "
+          className="w-[80%] overflow-y-auto resize-none bg-white z-40"
           placeholder="Ask Chef..."
           ref={inputRef}
           value={inputContent}
