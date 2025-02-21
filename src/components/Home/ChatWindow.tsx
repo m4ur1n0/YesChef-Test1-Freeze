@@ -1,5 +1,5 @@
 import { useRecipe } from "@/context/RecipeContext"
-import { queryGemini_2_0 } from "@/lib/gemini/Gemini"
+import { geminiPreliminaryMessage, queryGemini_2_0 } from "@/lib/gemini/Gemini"
 import { ChatMessage } from "@/types/chat-entry"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "../ui/button"
@@ -16,7 +16,7 @@ export const ChatWindow = () => {
   const [inputContent, setInputContent] = useState("")
   const [generationState, setGenerationState] = useState(false) // not currently generating a response
   const textAreaMaxHeightPx = 275
-  const { updateRecipe, rawRecipe, chatHistory, setChatHistory } = useRecipe()
+  const { updateRecipe, rawRecipe, chatHistory, setChatHistory, notInit } = useRecipe()
 
   const adjustTextAreaHeight = () => {
     if (inputRef.current) {
@@ -55,6 +55,30 @@ export const ChatWindow = () => {
     // for now we pretend it immediately sends back a reponse.
 
     setGenerationState(true)
+
+    // handle FIRST MESSAGE case
+    if (chatHistory.length <= 1) { // we have already added this message to the list
+      const response = await geminiPreliminaryMessage(query); // add user context once we have it
+
+      const generatedHTML = response.editedHTML;
+      const generatedResp = response.summary;
+
+      setGenerationState(false);
+
+      setChatHistory((prev: ChatMessage[]) => {
+        const ch = [
+          ...prev,
+          { message: generatedResp, role: "BOT" } as ChatMessage,
+        ]
+        return ch
+      });
+
+      updateRecipe(generatedHTML);
+
+      return;
+
+    }
+
     const response = await queryGemini_2_0(query, rawRecipe, chatHistory)
 
     let updatedRecipe = rawRecipe
@@ -85,6 +109,10 @@ export const ChatWindow = () => {
   }, [inputContent])
 
   useEffect(() => {
+    if (chatHistory.length === 1) { // since it starts at 0 and can't be removed, this is good
+      notInit();
+    }
+
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [chatHistory])
 
@@ -103,7 +131,7 @@ export const ChatWindow = () => {
           ))
         ) : (
           <p className="text-center w-full mt-5">
-            Upload a recipe, or start asking Chef some questions!
+            Paste a recipe, or start asking Chef some questions!
           </p>
         )}
 
@@ -125,12 +153,12 @@ export const ChatWindow = () => {
 
         <Button
           variant={"default"}
-          className="bg-app_teal hover:bg-app_teal_dark h-[60px] w-[15%] object-scale-down"
+          className="bg-app_teal hover:bg-app_teal_dark h-[60px] w-[15%] object-contain"
           onClick={handleInputSubmit}
         >
           <img
             src={`/vectors/chef-hat-and-spatula.svg`}
-            className="scale-[0.8]"
+            className="h-full"
           />
         </Button>
       </div>
