@@ -18,9 +18,10 @@ function Home() {
         className="chat-window-container transition-all duration-1000 ease-in-out absolute"
         style={{
           width : isInit ? '60vw' : '30vw',
-          height : isInit ? '55vh' : '88vh',
+          height : isInit ? '55vh' : '80vh',
           // transform : !isInit ? "translateX(-30vw)" : "translateX(0)",
-          left : isInit ? '20vw' : '3vw'
+          left : isInit ? '20vw' : '3vw',
+          marginTop : isInit ? '0' : '12vh',
 
         }}
       >

@@ -12,6 +12,9 @@
 html,
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+  /* font-family:Verdana, Geneva, Tahoma, sans-serif; */
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -59,4 +62,18 @@ body {
 
 .recently-edited-recipe-html {
   font-weight: bold;
+}
+
+.header-logo-hexagon {
+  clip-path: polygon(
+      50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%
+    );
+}
+
+.logo-text {
+  /* -webkit-text-stroke: 2px var(--yes-chef-teal-dark); */
+  -webkit-text-stroke: 2px var(--yes-chef-teal-dark);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
 }

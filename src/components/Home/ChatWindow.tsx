@@ -124,7 +124,7 @@ export const ChatWindow = () => {
       }}
     >
       {/* LOGIC FOR RENDERING DIFFERENT CHATS */}
-      <div className="flex flex-col gap-2 max-h-[88%] overflow-y-auto">
+      <div className="flex flex-col gap-2 max-h-[86%] overflow-y-auto">
         {chatHistory.length > 0 ? (
           chatHistory.map((chatMsg, idx) => (
             <ChatBubble message={chatMsg} key={idx} />
