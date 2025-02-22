@@ -116,6 +116,20 @@ export const ChatWindow = () => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [chatHistory])
 
+  function handleKeyDown(e : React.KeyboardEvent<HTMLTextAreaElement>) {
+
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleInputSubmit();
+    } else if (e.key === 'Enter' && e.shiftKey) {
+      e.preventDefault();
+      setInputContent((prev) => {
+        return prev + "\n";
+      });
+    }
+
+  }
+
   return (
     <div
       className="w-full h-full bg-inherit rounded-lg py-3 px-2 relative overflow-y-auto"
@@ -149,6 +163,7 @@ export const ChatWindow = () => {
             handleInputChange(e.target.value) // update the actual text entered
           }}
           disabled={generationState}
+          onKeyDown={handleKeyDown}
         />
 
         <Button
