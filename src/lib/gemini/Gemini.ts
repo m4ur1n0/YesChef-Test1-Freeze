@@ -133,6 +133,7 @@ function generateFirstMessagePrompt(
 
         IMPORTANT: 
         - You MUST include both [EDIT] and [SUMMARY] tags exactly as shown.
+        - The generated HTML must start with the [EDIT] tag and end with a [ENDEDIT] tag
         - You MUST include [ENDEDIT] and [ENDSUMMARY] tags to close the respective sections.
         - If you fail to include these tags, your response will be invalid and unusable.
         - Your HTML/TSX code generation should never, under any circumstances, contain '<script>' or '</script>'.
@@ -140,6 +141,7 @@ function generateFirstMessagePrompt(
           You should be as helpful, polite, and descriptive as possible. Your ultimate job is to guide the user through the preparation of the recipe, making it as easy as possible for them.
         - Your summary section should aim for about 200 characters, and should not surpass 800 characters.
         - We are conversing through an API, your rendered content must never be wrapped with \`\`\`html\`\`\` or anything you would do in a typical chat setting.
+        - The act of rendering the recipe to HTML should not be directly referenced in your response. It should be explained as something along the lines of "converted" or "formatted"
 
         You should assume that this initial prompt will be benign. It will most likely be a copy-pasted recipe. You MUST parse the entire response, and render something useful and relevant to
         cooking. If the prompt to follow could be a recipe, you MUST render it as such, word-for-word (ignoring everything irrelevant to the dish), but with your own rendering structure.
