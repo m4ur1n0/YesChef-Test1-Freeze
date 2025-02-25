@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -b local_backup_enter_key -d dist"
+    "predeploy" : "npm run build"
   },
   "dependencies": {
     "@babel/standalone": "^7.26.9",
